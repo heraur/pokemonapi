@@ -26,6 +26,13 @@ module.exports = (sequelize, DataTypes) => {
       types: {
         type: DataTypes.STRING,
         allowNull: false,
+        //getter ete setter pour convertir tableau et string et vice verse
+        get() {
+          return this.getDataValue("types").split(",");
+        },
+        set(types) {
+          this.setDataValue("types", types.join());
+        },
       },
     },
     {
