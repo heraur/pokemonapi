@@ -5,11 +5,21 @@ module.exports = (app) => {
     const id = req.params.id;
     Pokemon.update(req.body, {
       where: { id: id },
-    }).then((_) => {
-      Pokemon.findByPk(id).then((pokemon) => {
-        const message = `Le pokémon ${pokemon.name} a bien été modifié.`;
-        res.json({ message, data: pokemon });
+    })
+      .then((_) => {
+        return Pokemon.findByPk(id).then((pokemon) => {
+          if (pokemon === null) {
+            const message = "Le pokemon n'existe pas. Reessayez avec un autre";
+            res.status(404).json({ message });
+          }
+          const message = `Le pokémon ${pokemon.name} a bien été modifié.`;
+          res.json({ message, data: pokemon });
+        });
+      })
+      .catch((error) => {
+        const message =
+          "Le pokemon n'a pas pu etre modifie. reessayez dans quelques instant.";
+        res.status(500).json({ message, data: error });
       });
-    });
   });
 };
