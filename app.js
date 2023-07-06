@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(favicon(__dirname + "/favicon.ico")).use(bodyParser.json());
 
-app.get("/", (req, res) => {
+app.get("/api/home", (req, res) => {
   res.json("Hello Heroku from Heraur");
 });
 
